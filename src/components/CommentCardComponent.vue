@@ -100,6 +100,7 @@ const doDelete = () => {
                         <div>
                             <img alt="avatar profile photo" :src="useLoadAsset(props.comment.user.image.webp)">
                             <b class="username">{{ props.comment.user.username }}</b>
+                            <div v-if="props.comment.user.username === props.currentUser" class="you-sign">you</div>
                             <p class="created">{{ props.comment.createdAt }}</p>
                         </div>
 
@@ -144,6 +145,13 @@ const doDelete = () => {
 </template>
 
 <style scoped>
+
+.you-sign{
+    padding: 2px 8px;
+    background-color: #5358b4;
+    color: white;
+    border-radius: 2px;
+}
 .add-comment-container {
     margin-top: -5px;
 }
@@ -155,9 +163,11 @@ const doDelete = () => {
 .comment>p>span {
     color: #5358b4;
 }
+
 .comment>p {
     text-align: left;
 }
+
 .options.mobile {
     display: flex;
     flex-direction: row;
