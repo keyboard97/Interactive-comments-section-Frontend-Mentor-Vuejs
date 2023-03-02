@@ -80,11 +80,13 @@ button:focus-visible {
 } */
 
 @font-face {
-  font-family: "SpaceGrotesk";
-  src: url("https://fonts.google.com/specimen/Rubik");
+  font-family: "Rubik";
+  src: url("./assets/resources/Rubik-VariableFont_wght.ttf");
 }
+
 
 body{
   background-color: #f5f6fa;
   font-family: Rubik;
+  font-size: 14px;
 }

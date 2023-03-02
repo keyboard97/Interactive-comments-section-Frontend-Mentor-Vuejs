@@ -7,12 +7,22 @@ import ButtonComponent from './AtomComponents/ButtonComponent.vue';
 
 interface Props {
     avatar: string;
+    buttonText?: string;
+    commentId?: number;
+    replyingTo?: string;
+    editingComment?: string;
+    isEditing?: boolean
 }
 
 const props = defineProps<Props>()
 const emit = defineEmits(['send-comment'])
 const { isMobile } = useDimension()
-const textArea = ref("")
+// const textArea = ref(props.replyingTo ? '@' + props.replyingTo : props.editingComment ? props.editingComment : '')
+const textArea = ref(props.isEditing ? props.editingComment : props.replyingTo ? '@' + props.replyingTo + ' ' : '')
+
+const onClick = () => {
+    emit('send-comment', props.commentId, textArea.value!.replace('@' + props.replyingTo, ''))
+}
 
 </script>
 
@@ -21,10 +31,13 @@ const textArea = ref("")
         <div class="container" :class="isMobile ? 'mobile' : ''">
             <img :src="useLoadAsset(props.avatar)" v-if="!isMobile">
             <textarea placeholder="Add a comment..." v-model="textArea"></textarea>
-            <ButtonComponent :text="'Send'" :background-color="'#5358b4'" @click="emit('send-comment')" v-if="!isMobile" />
+            <ButtonComponent :text="props.buttonText ? props.buttonText : 'Send'" :background-color="'#5358b4'"
+                @click="emit('send-comment', props.commentId, textArea!.replace('@' + props.replyingTo, ''))"
+                v-if="!isMobile" />
             <div class="row" v-if="isMobile">
                 <img :src="useLoadAsset(props.avatar)">
-                <ButtonComponent :text="'Send'" :background-color="'#5358b4'" @click="emit('send-comment')" />
+                <ButtonComponent :text="props.buttonText ? props.buttonText : 'Send'" :background-color="'#5358b4'"
+                    @click="onClick" />
             </div>
         </div>
     </div>

@@ -22,5 +22,5 @@ export interface Comment {
   createdAt: string;
   score: number;
   user: User;
-  replies?: Reply[];
+  replies: Reply[];
 }

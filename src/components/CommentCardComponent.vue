@@ -1,33 +1,86 @@
 <script lang="ts" setup>
 import ButtonScoreComponent from './AtomComponents/ButtonScoreComponent.vue';
-import { Comment } from '../interfaces/data'
+import { Comment, Reply } from '../interfaces/data'
 import { useLoadAsset } from '../composables/useLoadImages';
 import { useDimension } from '../composables/useDimension';
+import AddCommentComponent from './AddCommentComponent.vue';
+import { useComments } from '../composables/useComments';
+import { ref } from 'vue';
+import DeleteModalComponent from './DeleteModalComponent.vue';
 
 interface Props {
-    comment: Comment
+    comment: Comment | Reply
     currentUser: string
     replyingTo?: string
+    idReply?: number
+    idComment?: number
 }
 const props = defineProps<Props>()
 const { isMobile } = useDimension()
+const { currentUser, addReply, doEditComment, doDeleteComment, doDeleteReply } = useComments()
+
+const showAddComment = ref(false)
+const showDeleteModal = ref(false)
+const isEditing = ref(false)
+
+
+const onReply = (id: number, reply: string, username: string) => {
+    showAddComment.value = false;
+    addReply(id, reply, username)
+}
+const onEditClick = () => {
+    isEditing.value = !isEditing.value;
+    showAddComment.value = !showAddComment.value
+}
+
+const onClickSendButton = (id: number, content: string) => {
+    const idReply = props.idReply ? props.idReply : 0
+    const idComment = props.idComment ? props.idComment : id
+    debugger
+    if (isEditing.value) {
+        doEditComment(idComment, idReply, content)
+        onEditClick()
+    }
+    else {
+        showAddComment.value = !showAddComment.value
+        onReply(idComment, content, props.comment.user.username)
+    }
+}
+
+const onDeleteClick = () => {
+    showDeleteModal.value = true;
+}
+const doDelete = () => {
+    if (props.idReply == undefined) doDeleteComment(props.idComment!)
+    else doDeleteReply(props.idComment!, props.idReply!)
+    return showDeleteModal.value = false;
+}
 </script>
 
 <template>
-    <div class="parent-container" :class="isMobile ? 'mobile' : ''">
+    <transition name="pop" appear>
+        <teleport to="#app">
+            <div class="modal" role="dialog" v-if="showDeleteModal">
+                <DeleteModalComponent @close-modal="showDeleteModal = false" @accept-modal="doDelete" />
+            </div>
+        </teleport>
+    </transition>
+
+    <div v-if="!isEditing" class="parent-container" :class="isMobile ? 'mobile' : ''">
         <div class="container" :class="isMobile ? 'mobile' : ''">
             <div class="options" :class="isMobile ? 'mobile' : ''">
-                <ButtonScoreComponent :score="props.comment.score" />
+                <ButtonScoreComponent :score="props.comment.score" @increase-score="props.comment.score++"
+                    @decrease-score="props.comment.score--" />
                 <div class="options-container" v-if="isMobile">
                     <template v-if="props.comment.user.username == props.currentUser">
                         <div class="delete-button-container">
-                            <button>
+                            <button @click="onDeleteClick">
                                 <img src="../assets/resources/images/icon-delete.svg" />
                                 <b>Delete</b>
                             </button>
                         </div>
                         <div class="reply-button-container">
-                            <button>
+                            <button @click="onEditClick">
                                 <img src="../assets/resources/images/icon-edit.svg" />
                                 <b>Edit</b>
                             </button>
@@ -35,7 +88,7 @@ const { isMobile } = useDimension()
                     </template>
 
                     <div class="reply-button-container" v-if="props.comment.user.username != props.currentUser">
-                        <button>
+                        <button @click="showAddComment = !showAddComment">
                             <img src="../assets/resources/images/icon-reply.svg" />
                             <b>Reply</b>
                         </button>
@@ -54,13 +107,13 @@ const { isMobile } = useDimension()
                         <div class="options-container" v-if="!isMobile">
                             <template v-if="props.comment.user.username == props.currentUser">
                                 <div class="delete-button-container">
-                                    <button>
+                                    <button @click="onDeleteClick">
                                         <img src="../assets/resources/images/icon-delete.svg" />
                                         <b>Delete</b>
                                     </button>
                                 </div>
                                 <div class="reply-button-container">
-                                    <button>
+                                    <button @click="onEditClick">
                                         <img src="../assets/resources/images/icon-edit.svg" />
                                         <b>Edit</b>
                                     </button>
@@ -68,7 +121,7 @@ const { isMobile } = useDimension()
                             </template>
 
                             <div class="reply-button-container" v-if="props.comment.user.username != props.currentUser">
-                                <button>
+                                <button @click="showAddComment = !showAddComment">
                                     <img src="../assets/resources/images/icon-reply.svg" />
                                     <b>Reply</b>
                                 </button>
@@ -77,16 +130,25 @@ const { isMobile } = useDimension()
                     </div>
                 </div>
                 <div class="comment">
-                    <p><span v-if="props.replyingTo"> 
-                       <b> {{ "@" + props.replyingTo }}</b></span> 
+                    <p><span v-if="props.replyingTo">
+                            <b> {{ "@" + props.replyingTo }}</b></span>
                         {{ props.comment.content }}</p>
                 </div>
             </div>
         </div>
     </div>
+    <div class="add-comment-container" v-if="showAddComment">
+        <AddCommentComponent :button-text="isEditing ? 'Update' : 'Reply'" :comment-id="props.comment.id"
+            :replying-to="comment.user.username" :avatar="currentUser.image.webp!" :is-editing="isEditing"
+            :editing-comment="props.comment.content" @send-comment="onClickSendButton" />
+    </div>
 </template>
 
 <style scoped>
+.add-comment-container {
+    margin-top: -5px;
+}
+
 .options {
     margin-top: 15px;
 }
