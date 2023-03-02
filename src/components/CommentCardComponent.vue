@@ -155,7 +155,9 @@ const doDelete = () => {
 .comment>p>span {
     color: #5358b4;
 }
-
+.comment>p {
+    text-align: left;
+}
 .options.mobile {
     display: flex;
     flex-direction: row;
