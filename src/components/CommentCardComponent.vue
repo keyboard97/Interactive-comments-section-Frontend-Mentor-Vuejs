@@ -73,22 +73,22 @@ const doDelete = () => {
                 <div class="options-container" v-if="isMobile">
                     <template v-if="props.comment.user.username == props.currentUser">
                         <div class="delete-button-container">
-                            <button @click="onDeleteClick">
-                                <img src="../assets/resources/images/icon-delete.svg" />
+                            <button role="button" aria-label="action button" @click="onDeleteClick">
+                                <img alt="delete icon" src="../assets/resources/images/icon-delete.svg" />
                                 <b>Delete</b>
                             </button>
                         </div>
                         <div class="reply-button-container">
-                            <button @click="onEditClick">
-                                <img src="../assets/resources/images/icon-edit.svg" />
+                            <button role="button" aria-label="action button" @click="onEditClick">
+                                <img alt="edit icon" src="../assets/resources/images/icon-edit.svg" />
                                 <b>Edit</b>
                             </button>
                         </div>
                     </template>
 
                     <div class="reply-button-container" v-if="props.comment.user.username != props.currentUser">
-                        <button @click="showAddComment = !showAddComment">
-                            <img src="../assets/resources/images/icon-reply.svg" />
+                        <button role="button" aria-label="action button" @click="showAddComment = !showAddComment">
+                            <img alt="reply icon" src="../assets/resources/images/icon-reply.svg" />
                             <b>Reply</b>
                         </button>
                     </div>
@@ -98,7 +98,7 @@ const doDelete = () => {
                 <div class="info-card">
                     <div class="user-info-comment">
                         <div>
-                            <img :src="useLoadAsset(props.comment.user.image.webp)">
+                            <img alt="avatar profile photo" :src="useLoadAsset(props.comment.user.image.webp)">
                             <b class="username">{{ props.comment.user.username }}</b>
                             <p class="created">{{ props.comment.createdAt }}</p>
                         </div>
@@ -106,22 +106,22 @@ const doDelete = () => {
                         <div class="options-container" v-if="!isMobile">
                             <template v-if="props.comment.user.username == props.currentUser">
                                 <div class="delete-button-container">
-                                    <button @click="onDeleteClick">
-                                        <img src="../assets/resources/images/icon-delete.svg" />
+                                    <button role="button" aria-label="action button" @click="onDeleteClick">
+                                        <img alt="delete icon" src="../assets/resources/images/icon-delete.svg" />
                                         <b>Delete</b>
                                     </button>
                                 </div>
                                 <div class="reply-button-container">
-                                    <button @click="onEditClick">
-                                        <img src="../assets/resources/images/icon-edit.svg" />
+                                    <button role="button" aria-label="action button" @click="onEditClick">
+                                        <img alt="edit icon" src="../assets/resources/images/icon-edit.svg" />
                                         <b>Edit</b>
                                     </button>
                                 </div>
                             </template>
 
                             <div class="reply-button-container" v-if="props.comment.user.username != props.currentUser">
-                                <button @click="showAddComment = !showAddComment">
-                                    <img src="../assets/resources/images/icon-reply.svg" />
+                                <button role="button" aria-label="action button" @click="showAddComment = !showAddComment">
+                                    <img alt="reply icon" src="../assets/resources/images/icon-reply.svg" />
                                     <b>Reply</b>
                                 </button>
                             </div>
@@ -244,7 +244,7 @@ const doDelete = () => {
 .parent-container.mobile {
     width: 90%;
     margin: 10px 5%;
-    min-height: 150px;
+    min-height: 160px;
     border-radius: 10px;
     background-color: white;
     padding-bottom: 10px;
@@ -253,7 +253,7 @@ const doDelete = () => {
 .parent-container {
     width: 80%;
     margin: 10px 10%;
-    min-height: 150px;
+    min-height: 160px;
     border-radius: 10px;
     background-color: white;
 }

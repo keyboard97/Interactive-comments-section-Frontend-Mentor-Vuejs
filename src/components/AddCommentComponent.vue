@@ -29,13 +29,13 @@ const onClick = () => {
 <template>
     <div class="parent-container" :class="isMobile ? 'mobile' : ''">
         <div class="container" :class="isMobile ? 'mobile' : ''">
-            <img :src="useLoadAsset(props.avatar)" v-if="!isMobile">
+            <img alt="avatar profile photo" :src="useLoadAsset(props.avatar)" v-if="!isMobile">
             <textarea placeholder="Add a comment..." v-model="textArea"></textarea>
             <ButtonComponent :text="props.buttonText ? props.buttonText : 'Send'" :background-color="'#5358b4'"
                 @click="emit('send-comment', props.commentId, textArea!.replace('@' + props.replyingTo, ''))"
                 v-if="!isMobile" />
             <div class="row" v-if="isMobile">
-                <img :src="useLoadAsset(props.avatar)">
+                <img alt="avatar profile photo" :src="useLoadAsset(props.avatar)">
                 <ButtonComponent :text="props.buttonText ? props.buttonText : 'Send'" :background-color="'#5358b4'"
                     @click="onClick" />
             </div>
@@ -74,7 +74,7 @@ const onClick = () => {
 
 .container>textarea {
     width: 65%;
-    height: 80px;
+    height: 120px;
     color: darkgray;
     border-radius: 5px;
     border-color: lightgray;
@@ -94,7 +94,7 @@ const onClick = () => {
 .parent-container.mobile {
     width: 90%;
     margin-left: 5%;
-    min-height: 120px;
+    min-height: 160px;
     background-color: white;
     border-radius: 10px;
 }
@@ -102,7 +102,7 @@ const onClick = () => {
 .parent-container {
     width: 80%;
     margin-left: 10%;
-    min-height: 120px;
+    min-height: 160px;
     background-color: white;
     border-radius: 10px;
 }

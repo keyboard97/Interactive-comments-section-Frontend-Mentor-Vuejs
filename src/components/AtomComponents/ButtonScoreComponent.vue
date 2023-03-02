@@ -12,11 +12,11 @@ const { isMobile } = useDimension()
 
 <template>
     <div class="score-container" :class="isMobile ? 'mobile' : ''">
-        <button @click="emit('increase-score')">
+        <button role="button" aria-label="icrease score button" @click="emit('increase-score')">
             <img src="../../assets/resources/images/icon-plus.svg" />
         </button>
         <p><b>{{ props.score }}</b></p>
-        <button @click="emit('decrease-score')">
+        <button role="button" aria-label="decrease score button" @click="emit('decrease-score')">
             <img src="../../assets/resources/images/icon-minus.svg" />
         </button>
     </div>
@@ -27,12 +27,14 @@ p {
     /* font-weight: 600; */
     color: #5358b4;
 }
-.score-container.mobile>button{
+
+.score-container.mobile>button {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .score-container.mobile {
     display: flex;
     flex-direction: row;

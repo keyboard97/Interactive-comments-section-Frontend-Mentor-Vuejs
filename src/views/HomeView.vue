@@ -49,9 +49,9 @@ const onAddComment = (id: number = 0, comment: string) => {
 }
 
 .vertical-line {
-    width: 5%;
+    width: 2.5%;
     height: auto;
-    margin: 0 20px;
+    margin: 0 5%;
     padding: 0;
     border-right: solid 3px #f0f1f5;
 }

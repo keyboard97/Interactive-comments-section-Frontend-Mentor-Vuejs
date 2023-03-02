@@ -10,7 +10,8 @@ const emit = defineEmits(['click'])
 </script>
 
 <template>
-    <button @click="emit('click')" :style="{ backgroundColor: props.backgroundColor }">
+    <button role="button" :aria-label="props.text" @click="emit('click')"
+        :style="{ backgroundColor: props.backgroundColor }">
         {{ text.toUpperCase() }}
     </button>
 </template>
