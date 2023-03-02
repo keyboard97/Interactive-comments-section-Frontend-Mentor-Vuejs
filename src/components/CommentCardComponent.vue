@@ -36,7 +36,6 @@ const onEditClick = () => {
 const onClickSendButton = (id: number, content: string) => {
     const idReply = props.idReply ? props.idReply : 0
     const idComment = props.idComment ? props.idComment : id
-    debugger
     if (isEditing.value) {
         doEditComment(idComment, idReply, content)
         onEditClick()
