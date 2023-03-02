@@ -84,6 +84,15 @@ button:focus-visible {
   src: url("./assets/resources/Rubik-VariableFont_wght.ttf");
 }
 
+#app{
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 1920px;
+  margin: 0 auto;
+  text-align: center;
+}
 
 body{
   background-color: #f5f6fa;
